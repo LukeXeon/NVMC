@@ -9,6 +9,6 @@ public class NonVirtualMethodCaller {
         System.loadLibrary("nvmc");
     }
 
-    public static native Object invokeNonVirtual(Method method, Object obj, Object[] args);
+    public synchronized static native Object invokeNonVirtual(Method method, Object obj, Object[] args);
 
 }

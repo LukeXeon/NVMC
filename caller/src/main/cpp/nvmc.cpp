@@ -296,15 +296,6 @@ public:
 static NonVirtualMethodCaller *caller = nullptr;
 
 extern "C"
-JNIEXPORT jint JNICALL
-JNI_OnLoad(JavaVM *vm, void *reserved) {
-    JNIEnv *env = nullptr;
-    vm->GetEnv((void **) (&env), VERSION);
-    caller = new NonVirtualMethodCaller(env);
-    return VERSION;
-}
-
-extern "C"
 JNIEXPORT jobject JNICALL
 Java_open_source_reflect_NonVirtualMethodCaller_invokeNonVirtual(
         JNIEnv *env,
@@ -313,5 +304,8 @@ Java_open_source_reflect_NonVirtualMethodCaller_invokeNonVirtual(
         jobject obj,
         jobjectArray args
 ) {
+    if (caller == nullptr) {
+        caller = new NonVirtualMethodCaller(env);
+    }
     return caller->invokeNonVirtual(env, method, obj, args);
 }
